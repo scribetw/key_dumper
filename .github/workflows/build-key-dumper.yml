@@ -23,24 +23,14 @@ jobs:
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1.3
     
-    - name: Download MinHook
+    - name: Setup vcpkg
       run: |
-        Invoke-WebRequest -Uri "https://github.com/TsudaKageyu/minhook/archive/refs/tags/v1.3.3.zip" -OutFile minhook.zip
-        Expand-Archive -Path minhook.zip -DestinationPath .
-        Move-Item minhook-1.3.3 key_dumper/deps/minhook
-    
-    - name: Build MinHook
-      working-directory: key_dumper/deps/minhook
-      run: |
-        cmake -Bbuild -A Win32 -DCMAKE_BUILD_TYPE=Release .
-        cmake --build build --config Release
-    
-    - name: Copy MinHook library
-      run: |
-        Copy-Item "key_dumper/deps/minhook/build/Release/minhook.lib" "key_dumper/lib/"
-        Copy-Item "key_dumper/deps/minhook/include/MinHook.h" "key_dumper/include/"
+        # 設置 vcpkg root 環境變數
+        echo "VCPKG_ROOT=$env:VCPKG_INSTALLATION_ROOT" >> $env:GITHUB_ENV
     
     - name: Configure CMake
+      working-directory: key_dumper
+      run: cmake -Bbuild -A Win32 -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake" -DCMAKE_BUILD_TYPE=Release .
       working-directory: key_dumper
       run: cmake -Bbuild -A Win32 -DCMAKE_BUILD_TYPE=Release .
     
