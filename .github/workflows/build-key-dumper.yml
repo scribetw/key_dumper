@@ -29,8 +29,6 @@ jobs:
     - name: Configure CMake
       working-directory: key_dumper
       run: cmake -Bbuild -A Win32 -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake" -DCMAKE_BUILD_TYPE=Release .
-      working-directory: key_dumper
-      run: cmake -Bbuild -A Win32 -DCMAKE_BUILD_TYPE=Release .
     
     - name: Build
       working-directory: key_dumper
