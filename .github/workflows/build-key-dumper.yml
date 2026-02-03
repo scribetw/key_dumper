@@ -24,9 +24,7 @@ jobs:
       uses: microsoft/setup-msbuild@v1.3
     
     - name: Setup vcpkg
-      run: |
-        # 設置 vcpkg root 環境變數
-        echo "VCPKG_ROOT=$env:VCPKG_INSTALLATION_ROOT" >> $env:GITHUB_ENV
+      run: echo "VCPKG_ROOT=$env:VCPKG_INSTALLATION_ROOT" >> $env:GITHUB_ENV
     
     - name: Configure CMake
       working-directory: key_dumper
